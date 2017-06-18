@@ -1,7 +1,7 @@
 <template>
   <div id="app">
   
-    <detail></detail>
+     <router-view></router-view>
   </div>
 </template>
 
@@ -11,10 +11,10 @@ export default {
   name: 'app',
   components:{detail},
   created(){
-      console.log('parent created');
+      
   },
   mounted(){
-      console.log('parent mounted');
+      
   }
 }
 </script>

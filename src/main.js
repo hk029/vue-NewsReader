@@ -6,9 +6,10 @@ import VueRouter from 'vue-router'
 import App from './App'
 import Home from './components/HelloFromVux'
 import router from './router'
+import axios from 'axios'
 import { AjaxPlugin } from 'vux'
 Vue.use(VueRouter)
-
+Vue.prototype.$http = axios;
 Vue.use(AjaxPlugin)
 console.log(Vue.http)
 
