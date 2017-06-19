@@ -20,7 +20,7 @@ export default {
         return {
             dict: { word: 'word', pron: '[]', explain: '' },
             notFound: { word: 'Sorry !T.T! ', pron: '', explain: '没有找到相关单词' , hide:true},
-            showRate: true,
+            showRate: false,
         }
     },
     watch: {
@@ -46,16 +46,16 @@ export default {
         }
     },
     created() {
-        var self = this;
-        jsonp('http://139.224.238.149:3033/api?word=' + this.word, null, function (err, data) {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log(data[0]);
-                self.dict = data[0];
-                // that.indata.commingsoon = data;
-            }
-        });
+        // var self = this;
+        // jsonp('http://139.224.238.149:3033/api?word=' + this.word, null, function (err, data) {
+        //     if (err) {
+        //         console.error(err.message);
+        //     } else {
+        //         console.log(data[0]);
+        //         self.dict = data[0];
+        //         // that.indata.commingsoon = data;
+        //     }
+        // });
     },
     computed:{
         rate(){

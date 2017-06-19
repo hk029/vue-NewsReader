@@ -24,7 +24,7 @@ export default {
 
 .hl{
   border:1px solid #333;
-  padding:1px 2px;
+  padding:2px 2px;
   background:#eee;
   border-radius:5px;
 }

@@ -17,15 +17,20 @@
     
         </div>
         <word-card :word="myword" v-show="showCard"></word-card>
+        <tool-bar :top="toolTop" :left="toolLeft" v-show="showTool"
+            @deleteWord='deleteWord'
+            @addWord = 'addWord'
+        ></tool-bar>
     </div>
 </template>
 
 <script>
 import miniPlayer from './miniPlayer2'
+import toolBar from './toolBar'
 import wordCard from './wordCard'
 export default {
     name: 'NewsDetail',
-    components: { miniPlayer, wordCard },
+    components: { miniPlayer, wordCard ,toolBar},
     data() {
         return {
             data: {
@@ -34,10 +39,15 @@ export default {
                 mp3:'http://www.listeningexpress.com/cnn/cnnstudentnews/CNNSN%202017-06-02%20CNN%20Student%20News.mp3',
             },
             myword: 'word',
-            showCard: true
+            showCard: false,
+            showTool:false,
+            toolTop:'200',
+            toolLeft:'100',
+            curWord:null
         }
     },
     computed: {
+        //把内容转换成<span>词</span>的形式
         newcontent() {
             var ctx = this.data.script;
             var reg = /\b(\w+)\b/g;
@@ -46,29 +56,43 @@ export default {
                     return a;
                 }
                 else {
-                    return '<span class=' + a.toLowerCase() + '>' + a + '</span>';
+                    return '<span data-id=' + a.toLowerCase() + '>' + a + '</span>';
                 }
             });
             return ctx;
         }
     },
     methods: {
+        // 每次触摸开始就开始计算时间
         touchStart(e) {
             this.time = +new Date();
             this.showCard = false;
+            var target = e.target;
+            this.showTool = false;
+            if(target.tagName === 'SPAN' && target.classList.contains('hl')){
+                this.log(target.offsetTop);
+                this.log(target.offsetHeight);
+                this.showTool = true;
+                this.toolTop = target.offsetTop+target.offsetHeight + 5;
+                this.toolLeft = target.offsetLeft + target.offsetWidth/2 - 70;
+                this.curWord = target;
+            }
+            
         },
+        // 超过400ms的时间表示长按
         touchEnd(e) {
             if (+new Date() - this.time > 400) { //大于400ms
-                this.showCard = true;
                 if (e.target.id !== 'content') {
                     var target = e.target;
-                    var nodeList = document.querySelectorAll('.' + target.className);
-
-                    for (var i = 0; i < nodeList.length; i++) {
-                        nodeList[i].classList.toggle('hl');
-                    }
                     
+                    var nodeList = document.querySelectorAll('[data-id="'+target.dataset.id+'"]');
+                    this.log('[data-id="'+target.dataset.id+']');
+                    for (var i = 0; i < nodeList.length; i++) {
+                        nodeList[i].classList.add('hl');
+                    }
+                    // 查单词
                     this.myword = target.innerText.toLowerCase();
+                    this.showCard = true;   // 显示单词卡片
                     console.log(this.myword);
                 }
             }
@@ -76,30 +100,43 @@ export default {
         play() {
             var scrllTop = window.scrollY;
             var player = document.querySelector('.player-wrap');
-            if(scrllTop > player.offsetTop){
+            if(player && scrllTop > player.offsetTop){
                 if(!player.classList.contains('fixed')){
                     console.log(scrllTop);
                     player.classList.add('fixed');
                 } 
-            }else if(player.classList.contains('fixed')){
+            }else if(player && player.classList.contains('fixed')){
                 console.log(scrllTop);
                 player.classList.remove('fixed');
             }
+        },
+        deleteWord(){
+            this.showTool = false;
+            var nodeList = document.querySelectorAll('[data-id="'+this.curWord.dataset.id+'"]');
+            this.log(nodeList);
+            for (var i = 0; i < nodeList.length; i++) {
+                nodeList[i].classList.remove('hl');
+            }
             
+        },
+        addWord(){
+            this.log('add   ');
         }
     },
     mounted(){
         window.addEventListener('scroll', this.play);
     },
     created(){
+        window.scrollTo(0,0);
+        var url = this.$route.params.data;
         var self = this;
         this.$http({
-            method: 'get',
-            url: '/static/news/CNNSN-2015-01-06-CNN-Student-News.json'}).then(function(data){
+                method: 'get',
+                url: url})
+            .then(function(data){
                 if(data.status === 200){
                     self.data = data.data;
                 }
-               
             }).catch(function(err){
                 console.log(err);
             })
@@ -129,15 +166,15 @@ export default {
 }
 
 
-
 .player-wrap {
+    position: absolute;
     margin-top: 20px;
+    width: 100%;
+    margin-left: -20px;
 }
 
 .player-wrap.fixed {
     position: fixed;
-    width: 100%;
-    margin-left: -20px;
     top: 0;
     margin-top:0px;
 }
