@@ -1,8 +1,8 @@
 <template>
   <div class="tool-bar" v-bind:style="{top:top+'px',left:left+'px'}">
     <button v-on:click="deleteWord"><img src="/static/delete.png" alt=""></button>  
-    <button v-on:click="addWord"><img src="/static/search.png" alt=""></button>  
-    <button><img src="/static/star.png" alt=""></button>  
+    <button v-on:click="searchWord"><img src="/static/search.png" alt=""></button>  
+    <button v-on:click="addWord"><img src="/static/star.png" alt=""></button>  
     <button><img src="/static/function.png" alt=""></button>  
   </div>
 </template>
@@ -24,6 +24,9 @@ export default {
     },
     addWord(){
       this.$emit('addWord');
+    },
+    searchWord(){
+      this.$emit('searchWord');
     }
   },
   props: ['top','left']

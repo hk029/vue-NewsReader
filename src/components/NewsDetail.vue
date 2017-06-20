@@ -20,7 +20,14 @@
         <tool-bar :top="toolTop" :left="toolLeft" v-show="showTool"
             @deleteWord='deleteWord'
             @addWord = 'addWord'
+            @searchWord = 'searchWord'
         ></tool-bar>
+        <div class="side-bar">
+            <ul>
+                <li><img src="/static/top.svg" alt=""></li>
+                <li><img src="/static/dict.svg" alt=""></li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -69,12 +76,15 @@ export default {
             this.showCard = false;
             var target = e.target;
             this.showTool = false;
+            var toolWidth = 140;
             if(target.tagName === 'SPAN' && target.classList.contains('hl')){
                 this.log(target.offsetTop);
                 this.log(target.offsetHeight);
                 this.showTool = true;
                 this.toolTop = target.offsetTop+target.offsetHeight + 5;
-                this.toolLeft = target.offsetLeft + target.offsetWidth/2 - 70;
+                this.toolLeft = target.offsetLeft + target.offsetWidth/2 - toolWidth/2;
+                this.toolLeft = this.toolLeft < 0?0:this.toolLeft;
+                this.toolLeft = this.toolLeft + toolWidth > window.innerWidth ? window.innerWidth - toolWidth : this.toolLeft;
                 this.curWord = target;
             }
             
@@ -121,6 +131,10 @@ export default {
         },
         addWord(){
             this.log('add   ');
+        },
+        searchWord(){
+            this.myword = this.curWord.innerText.toLowerCase();
+            this.showCard = true;   // 显示单词卡片
         }
     },
     mounted(){
@@ -163,6 +177,28 @@ export default {
 .author-info {
     overflow: hidden;
     display: inline-block;
+}
+
+.side-bar{
+    position: fixed;
+    right:20px;
+    bottom:20px;
+    width:40px;
+}
+.side-bar ul li{
+    list-style: none;
+    border:2px solid #eee;
+    /*border-radius: 50%;*/
+    width: 25px;
+    height:25px;
+    background: #ccc;
+    margin-bottom:10px;
+    padding:5px;
+}
+
+.side-bar img{
+    width:100%;
+    height:100%;
 }
 
 
