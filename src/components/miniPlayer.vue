@@ -1,9 +1,9 @@
 <template>
     <div class="mini-player">
-        <audio :src="url" id="myaudio" preload="auto"></audio>
-        <img :src="'/static/'+icon+'.png'" alt="" @click="play">
+        <audio :src="url" id="myaudio" preload="load"></audio>
+        <img :src="'/static/img/'+icon+'.png'" alt="" @click="play">
         <span class="text">{{curTime}}</span>
-        <span class="text end">{{parseInt(this.audio.duration/60).toString().padStart(2,'00') + ':' + parseInt(this.audio.duration%60).toString().padStart(2,'00')}}</span>
+        <span class="text end">{{totalTime}}</span>
         <div class="volumn-bar">
             <div class="cur-bar" :style="{width:audio.currentTime*100/audio.duration + '%'}"></div>
             <span class="circle" :style="{left:audio.currentTime*100/audio.duration + '%'}"></span>
@@ -18,28 +18,30 @@ export default {
   data () {  
     return {  
         audio:{
-            currentTime:62,
+            currentTime:0,
             duration:240
         },
         played:false,
         icon:'play',
         handle:null,
-        cur:0
+        cur:0,
+        total:0
     }  
   }, 
   computed:{
-      curTime:function(){
-          return this.formateTime(this.cur); 
-        //   return parseInt(this.audio.currentTime/60).toString().padStart(2,'00') + ':' + parseInt(this.audio.currentTime%60).toString().padStart(2,'00');
-        //   return this.formateTime(this.audio.currentTime);
+      curTime(){
+          return new Date(this.cur*1000).toTimeString().substr(3,5);
       },
-      totalTime:function(){
-          return this.formateTime(this.audio.duration);
+      totalTime(){
+          return new Date(this.total*1000).toTimeString().substr(3,5);
       }
   },  
   methods:{  
     play(){
         var self = this;
+        if(this.audio.duration){
+            this.total = this.audio.duration;
+        }
         if(this.handle){
            clearInterval(this.handle);
            this.handle = null;
@@ -47,26 +49,24 @@ export default {
         if(this.played){
             this.audio.pause();
             this.icon = 'play';
-
         }else{
             this.audio.play();
             this.handle = setInterval(function(){
                 self.cur += 1;
-                // this.audio = document.querySelector('audio');
             },1000);
-            this.icon = 'pause';
+            this.icon = 'pause';        
         }
         this.played = !this.played;
-    },
-    formateTime(second){
-        return ''+parseInt(second/60).toString().padStart(2,'00') + ':' + parseInt(second%60).toString().padStart(2,'00');
     }
   },
   props:['url'],
-  created(){
-      this.audio = new Audio();
-      this.audio.src = this.url;
-      this.play();
+  mounted(){
+      this.audio = document.querySelector('audio');
+      var self = this;
+      setTimeout(function () {
+          console.log(self.audio.readyState);
+           self.total = self.audio.duration;
+      },3000);
   }
 }  
 </script>
