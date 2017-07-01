@@ -7,10 +7,10 @@
       <h1>生词本</h1>
       <div class="word-wrap">
         <ul>
-          <li class="word" v-for="item in words">
+          <li class="word" v-for="(item,key) in words">
             <h2 class="name">{{item.name}}</h2>
-            <p class="explaination">{{item.explain}}</p>
-            <span class="del"><img src="/static/img/x.svg" alt=""></span>
+            <p class="explaination" v-html="item.explain"></p>
+            <span class="del" :value="item.name" @click="deleteWord(item.name)"><img src="/static/img/x.svg" alt=""></span>
           </li>
         </ul>
       </div>
@@ -23,54 +23,6 @@ export default {
   name: 'wordBook',
   data() {
     return {
-      words: [{
-        name:'hello',
-        explain:'n.打招呼,打招呼,打招呼,打招呼,打招呼,打招呼,打招呼,打招呼,打招呼,打招呼打招呼打招呼打招呼打招呼打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },{
-        name:'hello',
-        explain:'n.打招呼'
-      },
-
-      ]
     };
   },
   watch: {
@@ -80,11 +32,12 @@ export default {
     hideThis(){
       this.$emit('hideBook');
     },
-    deleteWord(){
-      this.$emit('deleteWord');
+    deleteWord(name){
+      console.log(name);
+      this.$emit('deleteWord',name);
     }
   },
-  props: ['top','left']
+  props: ['top','left','words']
 };
 </script>
 
@@ -148,5 +101,7 @@ export default {
   .word-book .word .explaination{
     font-size:14px;
     color:#999;
+    max-height: 42px;
+    overflow: hidden;
   }
 </style>

@@ -2,7 +2,7 @@
     <div class="news-list">
         <header class="news-header">
             <h1>CNN新闻</h1>
-            <span class="func"><img src="/static/menu.svg" alt=""></span>
+            <span class="func"><img src="/static/img/menu.svg" alt=""></span>
         </header>
         <div class="content" :style="{height:contentHeight+'px'}">
             <ul>

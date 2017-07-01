@@ -1,9 +1,9 @@
 <template>
   <div class="tool-bar" v-bind:style="{top:top+'px',left:left+'px'}">
-    <button v-on:click="deleteWord"><img src="/static/delete.png" alt=""></button>  
-    <button v-on:click="searchWord"><img src="/static/search.png" alt=""></button>  
-    <button v-on:click="addWord"><img src="/static/star.png" alt=""></button>  
-    <button><img src="/static/function.png" alt=""></button>  
+    <button v-on:click="deleteWord"><img src="/static/img/delete.png" alt=""></button>  
+    <button v-on:click="searchWord"><img src="/static/img/search.png" alt=""></button>  
+    <button v-on:click="addWord"><img :src="starIcon" alt=""></button>  
+    <button><img src="/static/img/function.png" alt=""></button>  
   </div>
 </template>
 
@@ -12,24 +12,28 @@ export default {
   name: 'toolBar',
   data() {
     return {
-      myshow: this.show
+      myshow: this.show,
+      starIcon:this.star
     };
   },
   watch: {
-
+    star (){
+      this.starIcon = this.star;
+    }
   },
   methods: {
     deleteWord(){
       this.$emit('deleteWord');
     },
     addWord(){
+      this.starIcon = '/static/img/star.svg';
       this.$emit('addWord');
     },
     searchWord(){
       this.$emit('searchWord');
     }
   },
-  props: ['top','left']
+  props: ['top','left','star']
 };
 </script>
 

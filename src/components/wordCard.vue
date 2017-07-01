@@ -25,21 +25,21 @@ export default {
     },
     watch: {
         word: function (newValue, oldValue) {
-            console.log('new' + newValue);
             var self = this;
             jsonp('http://139.224.238.149:3033/api?word=' + newValue, null, function (err, data) {
                 if (err) {
                     console.error(err.message);
                 } else {
-                    console.log(data[0]);
                     if (data[0]) {
                         self.dict = data[0];
                         self.showRate = true;
+                        self.$emit('getExplain',data[0].explain);
                     } else {
                         self.dict = self.notFound;
                         self.showRate = false;
+                        self.$emit('getExplain',self.notFound.explain);
                     }
-                    console.log(self.dict);
+                    
                     // that.indata.commingsoon = data;
                 }
             });
