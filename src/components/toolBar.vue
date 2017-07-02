@@ -56,6 +56,7 @@ export default {
     border:none;
     background:transparent;
     margin-left:5px;
+    outline: none;
   }
   .tool-bar img{
     width: 100%;
