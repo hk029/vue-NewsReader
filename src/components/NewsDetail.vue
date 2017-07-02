@@ -191,7 +191,7 @@ export default {
         window.scrollTo(0, 0);
         var url = this.$route.params.data;
         var self = this;
-        this.words = this.getItem('vocs');
+        this.words = this.getItem('vocs') || {};
         console.log(this.getItem('vocs'));
         this.$http({
             method: 'get',
