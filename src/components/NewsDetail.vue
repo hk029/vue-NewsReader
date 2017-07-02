@@ -142,7 +142,7 @@ export default {
 
         // 超过400ms的时间表示长按
         touchEnd(e) {
-            if (+new Date() - this.time > 400 && window.scrollY - this.scrollY < 10) { //大于400ms
+            if (+new Date() - this.time > 400 && window.scrollY - this.scrollY <= 0) { //大于400ms
                 if (e.target.id !== 'content') {
                     var target = e.target;
 
@@ -185,6 +185,7 @@ export default {
         addWord() {
             this.$set(this.words, this.curword, { name: this.curword, explain: this.curExplain });
             this.setItem('vocs', this.words);
+            this.starIcon = STAR;
             // this.words[this.curword] = ;
             // this.words.push({name:this.curword,explain:this.curExplain});
         },

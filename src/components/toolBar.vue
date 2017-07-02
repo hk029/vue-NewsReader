@@ -2,7 +2,7 @@
   <div class="tool-bar" v-bind:style="{top:top+'px',left:left+'px'}">
     <button v-on:click="deleteWord"><img src="/static/img/delete.png" alt=""></button>  
     <button v-on:click="searchWord"><img src="/static/img/search.png" alt=""></button>  
-    <button v-on:click="addWord"><img :src="starIcon" alt=""></button>  
+    <button v-on:click="addWord"><img :src="star" alt=""></button>  
     <button><img src="/static/img/function.png" alt=""></button>  
   </div>
 </template>
