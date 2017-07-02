@@ -108,6 +108,7 @@ export default {
         // 每次触摸开始就开始计算时间
         touchStart(e) {
             this.time = +new Date();
+            this.scrollY = window.scrollY;
             this.showCard = false;
             var target = e.target;
             this.showTool = false;
@@ -141,7 +142,7 @@ export default {
 
         // 超过400ms的时间表示长按
         touchEnd(e) {
-            if (+new Date() - this.time > 400) { //大于400ms
+            if (+new Date() - this.time > 400 && window.scrollY - this.scrollY < 10) { //大于400ms
                 if (e.target.id !== 'content') {
                     var target = e.target;
 
