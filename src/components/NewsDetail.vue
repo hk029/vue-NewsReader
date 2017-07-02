@@ -15,7 +15,7 @@
         </div>
         <div id="content" @touchstart="touchStart" @touchend="touchEnd" v-html="newcontent" class="content">
         </div>
-        <word-card :word="searchWord" v-show="showCard" @getExplain="getExplain"></word-card>
+        <word-card :word="sword" v-show="showCard" @getExplain="getExplain"></word-card>
         <tool-bar :top="toolTop" :star="starIcon" :left="toolLeft" v-show="showTool" @deleteWord='deleteWord' @addWord='addWord' @searchWord='searchWord'></tool-bar>
         <div class="side-bar">
             <ul>
@@ -55,7 +55,7 @@ export default {
             showTool: false,
             toolTop: '200',
             toolLeft: '100',
-            searchWord: '',
+            sword: '',
             showDict: false,
             words: {},
             tmpWords: {},
@@ -151,7 +151,7 @@ export default {
                     }
                     // 查单词
                     this.curword = target.innerText.toLowerCase();
-                    this.searchWord = this.curword;
+                    this.sword = this.curword;
                     this.showCard = true;   // 显示单词卡片
                 }
             }
@@ -188,8 +188,8 @@ export default {
             // this.words.push({name:this.curword,explain:this.curExplain});
         },
         searchWord() {
-            this.log('search');
-            this.searchWord = this.curword;
+            // this.log('search');
+            this.sword = this.curword;
             this.showCard = true;   // 显示单词卡片
         }
     },
@@ -298,6 +298,9 @@ export default {
     margin-top: 40px;
     font: 16px/1.8em a;
     font-family: Arial;
+    user-select: none;
+    -webkit-user-select: none;/*禁用手机浏览器的用户选择功能 */
+    -moz-user-select: none;
 }
 
 .content.fixed {
