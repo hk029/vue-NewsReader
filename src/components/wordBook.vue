@@ -1,9 +1,9 @@
 <template>
   <div class="word-book" >
-    <div class="mask" @click="hideThis">
+    <div class="mask" @touchstart="hideThis">
 
     </div>
-    <div class="content">
+    <div class="content" @touchstart.stop="nothing" @touchend.stop="nothing" @touchmove.stop="nothing">
       <h1>生词本</h1>
       <div class="word-wrap">
         <ul>
@@ -32,6 +32,9 @@ export default {
     hideThis(){
       this.$emit('hideBook');
     },
+    nothing(){
+
+    },
     deleteWord(name){
       console.log(name);
       this.$emit('deleteWord',name);
@@ -43,7 +46,7 @@ export default {
 
 <style scoped>
   .word-book{
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     width:100%;
     height: 100%;
