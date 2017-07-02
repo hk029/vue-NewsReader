@@ -8,7 +8,7 @@
                 <img src="/static/img/cnn.jpg" alt="">
                 <span class="author">CNN</span>
             </span>
-            <span class="date">2017-06-02</span>
+            <span class="date">{{date}}</span>
         </div>
         <div class="player-wrap">
             <mini-player :url="data.mp3"></mini-player>
@@ -59,7 +59,8 @@ export default {
             showDict: false,
             words: {},
             tmpWords: {},
-            starIcon:STAR_O
+            starIcon:STAR_O,
+            date:''
         }
     },
     computed: {
@@ -190,7 +191,9 @@ export default {
     created() {
         window.scrollTo(0, 0);
         var url = this.$route.params.data;
+
         var self = this;
+        this.date = this.$route.params.date;
         this.words = this.getItem('vocs') || {};
         console.log(this.getItem('vocs'));
         this.$http({
