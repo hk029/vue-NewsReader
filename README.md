@@ -24,7 +24,7 @@
 
 
 
-## Build Setup
+## 构建流程
 
 ``` bash
 # install dependencies
