@@ -26,7 +26,7 @@ export default {
     watch: {
         word: function (newValue, oldValue) {
             var self = this;
-            jsonp('http://139.224.238.149:3033/api?word=' + newValue, null, function (err, data) {
+            jsonp('http://easyread.top:3033/api?word=' + newValue, null, function (err, data) {
                 if (err) {
                     console.error(err.message);
                 } else {
