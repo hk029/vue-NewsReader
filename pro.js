@@ -9,5 +9,5 @@ app.use(express.static('dist'));
 
 var server = app.listen(8080, function () {
 
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('localhost:8080');
 });
